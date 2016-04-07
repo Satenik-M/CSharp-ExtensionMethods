@@ -1,6 +1,0 @@
-C:\Users\Admin\Documents\Visual Studio 2015\WebSites\CVforCloudSMB\CVbySatenikMarkosyan\ExtensionMethodsSMB\ExtensionMethodsSMB\bin\Debug\ExtensionMethodsSMB.exe.config
-C:\Users\Admin\Documents\Visual Studio 2015\WebSites\CVforCloudSMB\CVbySatenikMarkosyan\ExtensionMethodsSMB\ExtensionMethodsSMB\bin\Debug\ExtensionMethodsSMB.exe
-C:\Users\Admin\Documents\Visual Studio 2015\WebSites\CVforCloudSMB\CVbySatenikMarkosyan\ExtensionMethodsSMB\ExtensionMethodsSMB\bin\Debug\ExtensionMethodsSMB.pdb
-C:\Users\Admin\Documents\Visual Studio 2015\WebSites\CVforCloudSMB\CVbySatenikMarkosyan\ExtensionMethodsSMB\ExtensionMethodsSMB\obj\Debug\ExtensionMethodsSMB.csprojResolveAssemblyReference.cache
-C:\Users\Admin\Documents\Visual Studio 2015\WebSites\CVforCloudSMB\CVbySatenikMarkosyan\ExtensionMethodsSMB\ExtensionMethodsSMB\obj\Debug\ExtensionMethodsSMB.exe
-C:\Users\Admin\Documents\Visual Studio 2015\WebSites\CVforCloudSMB\CVbySatenikMarkosyan\ExtensionMethodsSMB\ExtensionMethodsSMB\obj\Debug\ExtensionMethodsSMB.pdb
