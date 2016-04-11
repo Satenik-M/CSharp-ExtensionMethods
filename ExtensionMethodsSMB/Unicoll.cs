@@ -7,10 +7,43 @@ using System.Threading.Tasks;
 
 namespace ExtensionMethodsSMB
 {
-    public class Unicoll<T> : IEnumerable<T> where T : IComparable
+    class Unicoll<T> : IList<T> where T :IComparable<T>
     {
-        private T[] innerArray;
+        public Unicoll()
+        {
+            this.innerArray = new T[0];
 
+
+        }
+        private T[] innerArray;
+        public T this[int index]
+        {
+            get
+            {
+                return innerArray[index];
+            }
+            set
+            {
+                innerArray[index] = value;
+            }
+        }
+
+        public int Count
+        {
+            get
+            {
+                return innerArray.Length;
+            }
+
+        }
+
+        public bool IsReadOnly //full implementation to be written!!!
+        {
+            get
+            {
+                return false;
+            }
+        }
 
         public void Add(T item)
         {
@@ -26,14 +59,81 @@ namespace ExtensionMethodsSMB
 
         }
 
-        public bool Remove(T item)
+        public void Clear() 
         {
-            int newLength;
-            int matchIndex=-1;
-            T[] newArray;
+            this.innerArray = new T[0];
+        }
+
+        public bool Contains(T item)
+        {
             for (int i = 0; i < innerArray.Length; i++)
             {
                 if (innerArray[i].CompareTo(item)==0)
+                {
+                    return true;
+                }
+                
+            }
+            return false;
+        }
+
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            if ((array.Length- arrayIndex)>=innerArray.Length)
+            {
+                for (int i = arrayIndex; i < (arrayIndex+innerArray.Length); i++)
+                {
+                    array[i] = innerArray[i - arrayIndex];
+                }
+            }
+        }
+
+        public int IndexOf(T item)
+        {
+            for (int i = 0; i < innerArray.Length; i++)
+            {
+                if (innerArray[i].CompareTo(item) == 0)
+                {
+                    return i;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            return -1;
+        }
+
+        public void Insert(int index, T item)
+        {
+            if (index<=innerArray.Length)
+            {
+                int newLength = innerArray.Length + 1;
+                T[] newArray = new T[newLength];
+                for (int i = 0; i < index; i++)
+                {
+
+                    newArray[i] = innerArray[i];
+                }
+                newArray[index] = item;
+                for (int i = index + 1; i < innerArray.Length; i++)
+                {
+                    newArray[i] = innerArray[i - 1];
+                }
+
+                innerArray = newArray;
+            }
+            
+        }
+
+        public bool Remove(T item)
+        {
+            int newLength;
+            int matchIndex = -1;
+            T[] newArray;
+            for (int i = 0; i < innerArray.Length; i++)
+            {
+                if (innerArray[i].CompareTo(item) == 0)
                 {
                     matchIndex = i;
                     newLength = innerArray.Length - 1;
@@ -59,46 +159,40 @@ namespace ExtensionMethodsSMB
 
             return false;
         }
-        public bool RemoveAt(int index)
+
+        public void RemoveAt(int index)
         {
-            if (index<innerArray.Length)
+            if (index < innerArray.Length)
             {
                 T[] newArray = new T[innerArray.Length - 1];
-                for (int i = 0; i < innerArray.Length-1; i++)
+                for (int i = 0; i < innerArray.Length - 1; i++)
                 {
-                    if (i<index)
+                    if (i < index)
                     {
                         newArray[i] = innerArray[i];
 
                     }
                     else
                     {
-                        newArray[i] = innerArray[i+1];
+                        newArray[i] = innerArray[i + 1];
                     }
                 }
                 innerArray = newArray;
-                return true;
+               
             }
-            else
-            {
-                return false;
-            }
+           
         }
-        public int IndexOf(T item)
+
+        public IEnumerator<T> GetEnumerator()
         {
-            for (int i = 0; i < innerArray.Length; i++)
-            {
-                if (innerArray[i].CompareTo(item)==0)
-                {
-                    return i;
-                }
-                else
-                {
-                    continue;
-                }
-            }
-            return -1;
+            return new UnicollEnumerator(this);
         }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
         public void Sort()
         {
             for (int i = 0; i < innerArray.Length; i++)
@@ -115,60 +209,19 @@ namespace ExtensionMethodsSMB
             }
 
         }
-        public T this[int index]
-        {
-            get
-            {
-                return innerArray[index];
-            }
-            set
-            {
-                innerArray[index] = value;
-            }
-        }
-
-        public int Count
-        {
-            get
-            {
-                return innerArray.Length;
-            }
-
-        }
-        public Unicoll()
-        {
-            this.innerArray = new T[0];
-            
-
-        }
 
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
             for (int i = 0; i < this.Count; i++)
             {
-                result.Append(innerArray[i].ToString()+"\n");
+                result.Append(innerArray[i].ToString() + "\n");
 
             }
             return result.ToString();
         }
 
-        #region Interface Implementation
-
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            return new UnicollEnumerator(this);
-        }
-        
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-
-
-        #endregion
-
+        #region IEnumerator<T> Implementation
         class UnicollEnumerator : IEnumerator<T>
         {
             private Unicoll<T> uc;
@@ -196,7 +249,7 @@ namespace ExtensionMethodsSMB
 
             public void Dispose()
             {
-                
+
             }
 
             public bool MoveNext()
@@ -210,6 +263,12 @@ namespace ExtensionMethodsSMB
                 index = -1;
             }
         }
+
+
+
+
+        #endregion
+
 
     }
 }
